@@ -26,10 +26,11 @@ class VideoCamera(object):
                 face_locations = face_recognition.face_locations(colorM,model="hog")
                 encodings = face_recognition.face_encodings(colorM, face_locations)
                 face_landmarks_list = face_recognition.face_landmarks(colorM)
-
+                #arr2 = encodings.tolist()
+                print(type(encodings))
                 #db operations
-                saveDb("belit",encodings)
-                findDb((1,2,3))
+                #saveDb("abc",arr2)
+                # print(findDb((1,2,3)))
 
 
                 # face_rects = face_cascade.detectMultiScale(gray, 1.3, 5)

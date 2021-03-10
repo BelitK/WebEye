@@ -34,7 +34,22 @@ def saveDb(name, face_encodings):
     with create_connection() as conn:
         try:
             cursor = conn.cursor()
-            query = "INSERT INTO encodes ( name, encode) VALUES ('{}', CUBE(array[{}]))".format(name, ','.join(str(s) for s in face_encodings))
+            #ToDo change save type from list to psql list
+            #query = "INSERT INTO encodes ( name, encode) VALUES ('{}', CUBE(array[{}]))"  .format(name, ','.join(str(s) for s in face_encodings))
+            # face_Array=[]
+            # for ar in face_encodings:
+            #     ar2 = ",".join(str(ar))
+            #
+            #     face_Array.append(ar2)
+            # print(face_Array)
+            # str2 = ",".join(list)
+            # return ()
+
+
+            #','.join(str(s) for s in face_encodings)
+
+
+            query = f"INSERT INTO encodes (name, encode) VALUES ('{name}', CUBE({face_encodings}))"
             cursor.execute(query)
             cursor.close()
             conn.commit()
