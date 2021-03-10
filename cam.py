@@ -2,6 +2,7 @@ import face_recognition
 import cv2
 from PIL import ImageDraw, Image
 import numpy
+import json
 from FaceSaveScp import create_connection, saveDb, findDb
 
 class VideoCamera(object):
@@ -27,9 +28,10 @@ class VideoCamera(object):
                 encodings = face_recognition.face_encodings(colorM, face_locations)
                 face_landmarks_list = face_recognition.face_landmarks(colorM)
                 #arr2 = encodings.tolist()
-                print(type(encodings))
+
+
                 #db operations
-                #saveDb("abc",arr2)
+                saveDb("abc",encodings)
                 # print(findDb((1,2,3)))
 
 

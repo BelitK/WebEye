@@ -49,7 +49,7 @@ def saveDb(name, face_encodings):
             #','.join(str(s) for s in face_encodings)
 
 
-            query = f"INSERT INTO encodes (name, encode) VALUES ('{name}', CUBE({face_encodings}))"
+            query = f"INSERT INTO encodes (name, encode) VALUES ('{name}','{face_encodings}')"
             cursor.execute(query)
             cursor.close()
             conn.commit()
@@ -82,11 +82,11 @@ def findDb(face_encodings, threshold=0.4):
             data = cursor.fetchone()
 
             if data == None:
-
+                print(name,"data=none")
                 return name
 
             else:
-
+                print(name,"data=else")
                 return data
 
         except Exception as e:
