@@ -31,8 +31,8 @@ class VideoCamera(object):
 
 
                 #db operations
-                saveDb("abc",encodings)
-                # print(findDb((1,2,3)))
+                #saveDb("belit",encodings)
+                print(findDb(encodings))
 
 
                 # face_rects = face_cascade.detectMultiScale(gray, 1.3, 5)

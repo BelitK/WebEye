@@ -49,7 +49,9 @@ def saveDb(name, face_encodings):
             #','.join(str(s) for s in face_encodings)
 
 
-            query = f"INSERT INTO encodes (name, encode) VALUES ('{name}','{face_encodings}')"
+            #query = f"INSERT INTO encodes (name, encode) VALUES ('{name}','{face_encodings}')"
+            query = f"INSERT INTO encodetest (name, encode_low, encode_high) VALUES ('{name}', CUBE(array[{','.join(str(s) for s in face_encodings[0][0:64])}]), CUBE(array[{','.join(str(s) for s in face_encodings[0][64:128])}]))"
+
             cursor.execute(query)
             cursor.close()
             conn.commit()
@@ -75,8 +77,17 @@ def findDb(face_encodings, threshold=0.4):
 
             #euclidean distance on sql
 
-            query = "SELECT name FROM encodes WHERE sqrt(power(CUBE(array[{}]) <-> encode, 2)) <= {} ".format(','.join(str(s) for s in face_encodings), threshold) + "ORDER BY sqrt(power(CUBE(array[{}]) <-> encode, 2)) ASC LIMIT 1".format(','.join(str(s) for s in face_encodings))
+            #query = f"SELECT name FROM encodetest WHERE sqrt(power(CUBE(array[{','.join(str(s) for s in face_encodings[0][0:64])}]) <-> encode_low, 2) + power(CUBE(array[{','.join(str(s) for s in face_encodings[0][64:128])}]) <-> encode_high, 2)) <= {threshold}"+ f"ORDER BY sqrt(power(CUBE(array[{','.join(str(s) for s in face_encodings[0][0:64])}]) <-> encode_low, 2) + power(CUBE(array[{','.join(str(s) for s in face_encodings[0][64:128])}]) <-> encode_high, 2)) <-> encode_high) ASC LIMIT 1"
 
+            query = "SELECT name FROM encodetest WHERE sqrt(power(CUBE(array[{}]) <-> encode_low, 2) + power(CUBE(array[{}]) <-> encode_high, 2)) <= {} ".format(
+                ','.join(str(s) for s in face_encodings[0][0:64]),
+                ','.join(str(s) for s in face_encodings[0][64:128]),
+                threshold,
+            ) + \
+                    "ORDER BY sqrt(power(CUBE(array[{}]) <-> encode_low, 2) + power(CUBE(array[{}]) <-> encode_high, 2)) <-> encode_high) ASC LIMIT 1".format(
+                        ','.join(str(s) for s in face_encodings[0][0:64]),
+                        ','.join(str(s) for s in face_encodings[0][64:128]),
+                    )
             cursor.execute(query)
 
             data = cursor.fetchone()
