@@ -79,15 +79,7 @@ def findDb(face_encodings, threshold=0.4):
 
             #query = f"SELECT name FROM encodetest WHERE sqrt(power(CUBE(array[{','.join(str(s) for s in face_encodings[0][0:64])}]) <-> encode_low, 2) + power(CUBE(array[{','.join(str(s) for s in face_encodings[0][64:128])}]) <-> encode_high, 2)) <= {threshold}"+ f"ORDER BY sqrt(power(CUBE(array[{','.join(str(s) for s in face_encodings[0][0:64])}]) <-> encode_low, 2) + power(CUBE(array[{','.join(str(s) for s in face_encodings[0][64:128])}]) <-> encode_high, 2)) <-> encode_high) ASC LIMIT 1"
 
-            query = "SELECT name FROM encodetest WHERE sqrt(power(CUBE(array[{}]) <-> encode_low, 2) + power(CUBE(array[{}]) <-> encode_high, 2)) <= {} ".format(
-                ','.join(str(s) for s in face_encodings[0][0:64]),
-                ','.join(str(s) for s in face_encodings[0][64:128]),
-                threshold,
-            ) + \
-                    "ORDER BY sqrt(power(CUBE(array[{}]) <-> encode_low, 2) + power(CUBE(array[{}]) <-> encode_high, 2)) <-> encode_high) ASC LIMIT 1".format(
-                        ','.join(str(s) for s in face_encodings[0][0:64]),
-                        ','.join(str(s) for s in face_encodings[0][64:128]),
-                    )
+            query = f"SELECT name FROM encodetest WHERE sqrt(power(CUBE(array[{','.join(str(s) for s in face_encodings[0][0:64])}]) <-> encode_low, 2) + power(CUBE(array[{','.join(str(s) for s in face_encodings[0][64:128])}]) <-> encode_high, 2)) <= {threshold}" + f"ORDER BY sqrt(power(CUBE(array[{','.join(str(s) for s in face_encodings[0][0:64])}]) <-> encode_low, 2) + power(CUBE(array[{','.join(str(s) for s in face_encodings[0][64:128])}]) <-> encode_high, 2)) <-> encode_high ) ASC LIMIT 1"
             cursor.execute(query)
 
             data = cursor.fetchone()
