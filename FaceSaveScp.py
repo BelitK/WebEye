@@ -9,7 +9,7 @@ import psycopg2
 # host="localhost",database="FaceDb",user="belit",
 # password="12897",port="5432"
 
-def create_connection(db_name="FaceDb", db_user="belit", db_password='12897', db_host="localhost",
+def create_connection(db_name="FaceDb", db_user="belit", db_password="None", db_host="localhost",
                                db_port="5432"):
     connection = None
     try:
